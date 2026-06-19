@@ -1,49 +1,33 @@
-// Last updated: 6/14/2026, 11:40:11 PM
-1/**
-2 * Definition for a binary tree node.
-3 * public class TreeNode {
-4 *     int val;
-5 *     TreeNode left;
-6 *     TreeNode right;
-7 *     TreeNode() {}
-8 *     TreeNode(int val) { this.val = val; }
-9 *     TreeNode(int val, TreeNode left, TreeNode right) {
-10 *         this.val = val;
-11 *         this.left = left;
-12 *         this.right = right;
-13 *     }
-14 * }
-15 */
-16class Solution {
-17    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
-18        
-19        List<List<Integer>> ls = new ArrayList<>();
-20        Queue<TreeNode> q = new LinkedList<>();
-21        if(root==null)return ls;
-22        q.add(root);
-23        int level=1;
-24        while(!q.isEmpty()){
-25            int n = q.size();
-26            ArrayList<Integer> ls1 = new ArrayList<>();
-27            for(int i =0 ; i<n ; i++){
-28                TreeNode r = q.poll();
-29                ls1.add(r.val);
-30                if(r.left!=null){
-31                    q.add(r.left);
-32                }
-33                if(r.right!=null){
-34                    q.add(r.right);
-35                }
-36            }
-37            if(level%2==0){
-38                Collections.reverse(ls1);
-39                ls.add(ls1);
-40            }
-41            else{
-42                ls.add(ls1);
-43            }
-44            level++;
-45        }
-46        return ls;
-47    }
-48}
+// Last updated: 6/19/2026, 10:17:49 PM
+1class Solution {
+2    public boolean exist(char[][] board, String word) {
+3        for(int i = 0 ;i<board.length ; i++){
+4            for(int j  =0 ; j<board[0].length ; j++){
+5                if(board[i][j]==word.charAt(0)){
+6                if(backtrack(board,word,i,j,0)){
+7                    return true;
+8                }
+9                
+10                }
+11            }
+12        }
+13        return false;
+14        
+15    }
+16    public boolean backtrack(char[][] board , String word , int i ,int j , int index){
+17        if(index==word.length()){
+18            return true;
+19        }
+20        else if(i<0 || i>=board.length || j<0 ||j>=board[0].length|| board[i][j]=='#' || board[i][j]!=word.charAt(index)){
+21            return false;
+22        }
+23        char temp = board[i][j];
+24        board[i][j]='#';
+25        boolean result=backtrack(board,word,i+1,j,index+1)||
+26        backtrack(board,word,i-1,j,index+1)||
+27        backtrack(board,word,i,j+1,index+1)||backtrack(board,word,i,j-1,index+1);
+28        board[i][j]=temp;
+29        return result;
+30        
+31    }
+32}
